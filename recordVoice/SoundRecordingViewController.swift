@@ -57,8 +57,6 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         audioRecorder.record()
         audioRecorder.delegate = self
 
-        
-        
     }
     
 

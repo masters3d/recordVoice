@@ -81,7 +81,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJp-xa-3fE" userLabel="slowButton">
-                                <rect key="frame" x="46" y="119" width="100" height="100"/>
+                                <rect key="frame" x="46" y="75" width="100" height="100"/>
                                 <state key="normal" image="slow">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -90,7 +90,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V7O-he-3mp" userLabel="fastButton">
-                                <rect key="frame" x="454" y="119" width="100" height="100"/>
+                                <rect key="frame" x="454" y="75" width="100" height="100"/>
                                 <state key="normal" image="fast">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -108,7 +108,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gG0-yK-xQH" userLabel="chipmunkButton">
-                                <rect key="frame" x="46" y="250" width="100" height="100"/>
+                                <rect key="frame" x="46" y="266" width="100" height="100"/>
                                 <state key="normal" image="chipmunk">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -117,7 +117,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MF8-mw-nNE" userLabel="darthButton">
-                                <rect key="frame" x="454" y="249" width="100" height="100"/>
+                                <rect key="frame" x="454" y="265" width="100" height="100"/>
                                 <state key="normal" image="darthvader">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -125,17 +125,28 @@
                                     <action selector="darthButtonPlay:" destination="vmT-FS-xzD" eventType="touchUpInside" id="yHU-Gf-dIR"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vvg-2R-pog" userLabel="delayButton">
+                                <rect key="frame" x="250" y="167" width="100" height="100"/>
+                                <state key="normal" image="delay">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="delayButtonPlay:" destination="vmT-FS-xzD" eventType="touchUpInside" id="F05-yn-5JQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MF8-mw-nNE" firstAttribute="top" secondItem="V7O-he-3mp" secondAttribute="bottom" constant="30" id="4ZO-Ug-2yI"/>
+                            <constraint firstItem="MF8-mw-nNE" firstAttribute="top" secondItem="V7O-he-3mp" secondAttribute="bottom" constant="90" id="4ZO-Ug-2yI"/>
                             <constraint firstItem="hiY-h0-8xm" firstAttribute="top" secondItem="tdb-t9-7o8" secondAttribute="bottom" constant="62" id="9IR-MG-OfT"/>
                             <constraint firstAttribute="centerX" secondItem="tdb-t9-7o8" secondAttribute="centerX" id="BuY-oA-bkk"/>
+                            <constraint firstItem="Vvg-2R-pog" firstAttribute="centerX" secondItem="tdb-t9-7o8" secondAttribute="centerX" id="EQa-OJ-5Rt"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MF8-mw-nNE" secondAttribute="trailing" constant="30" id="Eg6-UJ-DNg"/>
                             <constraint firstItem="gG0-yK-xQH" firstAttribute="leading" secondItem="P7y-G3-TsI" secondAttribute="leadingMargin" constant="30" id="LvB-0h-TTb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="V7O-he-3mp" secondAttribute="trailing" constant="30" id="SzQ-5w-Pbt"/>
-                            <constraint firstItem="gG0-yK-xQH" firstAttribute="top" secondItem="jJp-xa-3fE" secondAttribute="bottom" constant="31" id="bsw-vF-3le"/>
-                            <constraint firstItem="jJp-xa-3fE" firstAttribute="top" secondItem="vXQ-xu-Xvj" secondAttribute="bottom" constant="55" id="vtc-vU-Jhl"/>
+                            <constraint firstItem="gG0-yK-xQH" firstAttribute="top" secondItem="Vvg-2R-pog" secondAttribute="top" constant="99" id="YRa-ii-jP9"/>
+                            <constraint firstItem="gG0-yK-xQH" firstAttribute="top" secondItem="jJp-xa-3fE" secondAttribute="bottom" constant="91" id="bsw-vF-3le"/>
+                            <constraint firstItem="jJp-xa-3fE" firstAttribute="top" secondItem="vXQ-xu-Xvj" secondAttribute="bottom" constant="11" id="vtc-vU-Jhl"/>
                             <constraint firstItem="jJp-xa-3fE" firstAttribute="leading" secondItem="P7y-G3-TsI" secondAttribute="leadingMargin" constant="30" id="wWZ-3X-9Ii"/>
                             <constraint firstItem="V7O-he-3mp" firstAttribute="top" secondItem="jJp-xa-3fE" secondAttribute="top" id="ytR-he-H0D"/>
                         </constraints>
@@ -167,6 +178,7 @@
     <resources>
         <image name="chipmunk" width="100" height="100"/>
         <image name="darthvader" width="100" height="100"/>
+        <image name="delay" width="100" height="100"/>
         <image name="fast" width="100" height="100"/>
         <image name="mic" width="170" height="170"/>
         <image name="slow" width="100" height="100"/>

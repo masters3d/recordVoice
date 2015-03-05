@@ -10,10 +10,6 @@ import UIKit
 import AVFoundation
 
 class PlaySoundsViewControler: UIViewController {
-
-
-
-    //navigationController?.navigationBarHidden = true
     
     var songAudio:AVAudioPlayer!
     var recievedAudio:RecordedAudio!
@@ -23,13 +19,14 @@ class PlaySoundsViewControler: UIViewController {
     @IBAction func StopButton(sender: UIButton) {
         songAudio.stop()
     }
+    
     @IBAction func FastButtonPlay(sender: UIButton) {
         songAudio.stop()
         songAudio.currentTime = 0.0
         songAudio.rate = 1.5
         songAudio.play()
-        
     }
+    
     @IBAction func SlowButtonPlay(sender: UIButton) {
         songAudio.stop()
         songAudio.currentTime = 0.0
@@ -37,18 +34,41 @@ class PlaySoundsViewControler: UIViewController {
         songAudio.play()
     }
     @IBAction func chipButtonPlay(sender: UIButton) {
-        playAudioWithVariablePitch(1000)
-
-        
+        playAudioWithVariable(pitch: 1000)
         
     }
     
     @IBAction func darthButtonPlay(sender: UIButton) {
-        playAudioWithVariablePitch(-500)
+        playAudioWithVariable(pitch: -500)
+    }
+    
+    @IBAction func delayButtonPlay(sender: UIButton) {
+        playAudioWithVariable(delay: 50)
     }
     
     
-    func playAudioWithVariablePitch(pitch: Float){
+    func playAudioWithVariable(#delay: Float ){
+        songAudio.stop()
+        audioEngine.stop()
+        audioEngine.reset()
+        
+        var audioPlayerNode = AVAudioPlayerNode()
+        audioEngine.attachNode(audioPlayerNode)
+    
+        var changeDelayEffect = AVAudioUnitDelay()
+        changeDelayEffect.feedback = delay
+        audioEngine.attachNode(changeDelayEffect)
+        
+        audioEngine.connect(audioPlayerNode, to: changeDelayEffect, format: nil)
+        audioEngine.connect(changeDelayEffect, to: audioEngine.outputNode, format: nil)
+        
+        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        audioEngine.startAndReturnError(nil)
+        
+        audioPlayerNode.play()
+    }
+    
+    func playAudioWithVariable(#pitch: Float ){
         songAudio.stop()
         audioEngine.stop()
         audioEngine.reset()
@@ -71,9 +91,11 @@ class PlaySoundsViewControler: UIViewController {
     
     
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
 //        var songPath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3")
 //        var songURL = NSURL.fileURLWithPath(songPath!)
         
@@ -87,8 +109,7 @@ class PlaySoundsViewControler: UIViewController {
         NSNotificationCenter.defaultCenter().addObserverForName(
             AVAudioSessionRouteChangeNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
                 (note:NSNotification!) in
-                //println("change route \(note.userInfo)")
-                
+                println("change route \(note.userInfo)")
                 println("current output :\(AVAudioSession.sharedInstance().currentRoute.outputs[0].UID)")
                 if (AVAudioSession.sharedInstance().currentRoute.outputs[0].UID) == "Built-In Receiver" {
                     
