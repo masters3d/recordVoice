@@ -78,11 +78,9 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
         if(flag){
             
-            // Why would this be a clitical **fix**?
-            // We already initialized this on line 15     **var recordedAudio:RecordedAudio!**
-            recordedAudio = RecordedAudio()
-            recordedAudio.filePathUrl = recorder.url
-            recordedAudio.title = recorder.url.lastPathComponent
+            
+            recordedAudio = RecordedAudio(filePathUrl: recorder.url, title: recorder.url.lastPathComponent!)
+            
             self.performSegueWithIdentifier("StopRecordingSegue", sender: recordedAudio)
             
         }else{
