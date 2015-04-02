@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rwc-w1-uJ2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rwc-w1-uJ2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -19,6 +19,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="90" verticalHuggingPriority="90" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rys-Jd-ZKe" userLabel="micButton">
                                 <rect key="frame" x="255" y="146" width="90" height="90"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="9M1-aY-4Ov"/>
                                     <constraint firstAttribute="height" constant="90" id="Z03-wo-yB7"/>
@@ -39,19 +40,19 @@
                                     <action selector="stopButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FkF-pX-EMw"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RECORDING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMz-Ya-kUn">
-                                <rect key="frame" x="251" y="234" width="102" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press to Record" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMz-Ya-kUn">
+                                <rect key="frame" x="243" y="244" width="124" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eMz-Ya-kUn" firstAttribute="top" secondItem="Rys-Jd-ZKe" secondAttribute="bottom" constant="-2" id="N6y-ce-lqh"/>
+                            <constraint firstItem="eMz-Ya-kUn" firstAttribute="top" secondItem="Rys-Jd-ZKe" secondAttribute="bottom" constant="8" id="N6y-ce-lqh"/>
                             <constraint firstItem="Rys-Jd-ZKe" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="P5w-br-SyJ"/>
                             <constraint firstAttribute="centerX" secondItem="ipp-Fs-Js6" secondAttribute="centerX" id="Pnr-7Q-hd6"/>
-                            <constraint firstItem="eMz-Ya-kUn" firstAttribute="centerX" secondItem="ipp-Fs-Js6" secondAttribute="centerX" constant="2" id="Rog-HL-xCQ"/>
+                            <constraint firstItem="eMz-Ya-kUn" firstAttribute="centerX" secondItem="ipp-Fs-Js6" secondAttribute="centerX" constant="5" id="Rog-HL-xCQ"/>
                             <constraint firstItem="Rys-Jd-ZKe" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="82" id="SDm-Vc-PRh"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="ipp-Fs-Js6" secondAttribute="bottom" constant="26" id="aTJ-gl-UZw"/>
                         </constraints>

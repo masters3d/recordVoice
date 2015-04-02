@@ -54,7 +54,7 @@ class PlaySoundsViewControler: UIViewController {
         
         var audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
-    
+        
         var changeDelayEffect = AVAudioUnitDelay()
         changeDelayEffect.feedback = delay
         audioEngine.attachNode(changeDelayEffect)
@@ -91,20 +91,17 @@ class PlaySoundsViewControler: UIViewController {
     
     
     
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-//        var songPath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3")
-//        var songURL = NSURL.fileURLWithPath(songPath!)
+
         
         songAudio = AVAudioPlayer(contentsOfURL:recievedAudio.filePathUrl, error: nil)!
         songAudio.enableRate = true
         audioEngine = AVAudioEngine()
         audioFile = AVAudioFile(forReading: recievedAudio.filePathUrl, error: nil)
-
-    
+        
+        
         
         NSNotificationCenter.defaultCenter().addObserverForName(
             AVAudioSessionRouteChangeNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {

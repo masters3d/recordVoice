@@ -11,14 +11,15 @@ import AVFoundation
 
 
 class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
-
+    
     var audioRecorder:AVAudioRecorder!
     var recordedAudio:RecordedAudio!
- 
+    
     
     @IBAction func stopButton(sender: UIButton) {
         stopbuttonLabel.hidden = true
-        recLabel.hidden = true
+        recLabel.text = "Press to Record"
+        recLabel.textColor = UIColor.blackColor()
         recButtonLabel.enabled = true
         
         
@@ -32,6 +33,8 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
     @IBOutlet weak var recLabel: UILabel!
     @IBOutlet weak var recButtonLabel: UIButton!
     @IBAction func recButtonAction(sender: UIButton) {
+        recLabel.text = "Recording"
+        recLabel.textColor = UIColor.redColor()
         recLabel.hidden = false
         stopbuttonLabel.hidden = false
         recButtonLabel.enabled = false
@@ -56,30 +59,32 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         audioRecorder.meteringEnabled = true
         audioRecorder.record()
         audioRecorder.delegate = self
-
+        
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
         if(flag){
-        
-        recordedAudio = RecordedAudio()
-        recordedAudio.filePathUrl = recorder.url
-        recordedAudio.title = recorder.url.lastPathComponent
-        self.performSegueWithIdentifier("StopRecordingSegue", sender: recordedAudio)
-        
+            
+            // Why would this be a clitical **fix**?
+            // We already initialized this on line 15     **var recordedAudio:RecordedAudio!**
+            recordedAudio = RecordedAudio()
+            recordedAudio.filePathUrl = recorder.url
+            recordedAudio.title = recorder.url.lastPathComponent
+            self.performSegueWithIdentifier("StopRecordingSegue", sender: recordedAudio)
+            
         }else{
             println("recording was not succesfull")
             recButtonLabel.enabled = true
@@ -100,6 +105,6 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
     }
     
     
-
+    
 }
 
