@@ -33,6 +33,7 @@ class PlaySoundsViewControler: UIViewController {
         songAudio.rate = 0.5
         songAudio.play()
     }
+    
     @IBAction func chipButtonPlay(sender: UIButton) {
         playAudioWithVariable(pitch: 1000)
     }
@@ -50,99 +51,39 @@ class PlaySoundsViewControler: UIViewController {
         audioEngine.stop()
     }
     
-    enum EffectEnum{
-        case delay
-        case pitch
-    }
-    
-    func playAudioEffect(#input:EffectEnum, value:Float){
+    func playAudioEffect(changeEffect:AVAudioNode){
         stopAllAudio()
         audioEngine.reset()
         
         var audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
-        
-        var changeEffect = AVAudioNode()
-        
-        func delay()->AVAudioUnitDelay{
-            var changeEffect = AVAudioUnitDelay()
-            changeEffect.feedback = value
-            return changeEffect
-        }
-        
-        func pitch()->AVAudioUnitTimePitch{
-            var changeEffect = AVAudioUnitTimePitch()
-            changeEffect.pitch = value
-            return changeEffect
-        }
-        
-        switch input {
-        case .delay : changeEffect = delay()
-        case .pitch : changeEffect = pitch()
-        }
-        
         audioEngine.attachNode(changeEffect)
         audioEngine.connect(audioPlayerNode, to: changeEffect, format: nil)
         audioEngine.connect(changeEffect, to: audioEngine.outputNode, format: nil)
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
         audioEngine.startAndReturnError(nil)
         audioPlayerNode.play()
-        
     }
     
     func playAudioWithVariable(#delay: Float ){
-        playAudioEffect(input: EffectEnum.delay, value: delay)
+            var changeEffect = AVAudioUnitDelay()
+            changeEffect.feedback = delay
+            playAudioEffect(changeEffect)
     }
+    
     func playAudioWithVariable(#pitch: Float ){
-        playAudioEffect(input: EffectEnum.pitch, value: pitch)
-        
+            var changeEffect = AVAudioUnitTimePitch()
+            changeEffect.pitch = pitch
+            playAudioEffect(changeEffect)
     }
-    
-    //  Is called funccion overloading. Did I want to abstract the AVAudioPlayerNodes? no. Why? because is just two effects. Is the code above any better than the code below? I dont think so. If anythinbg the below code is easier to reason with, easier to read. Sure there is some duplicate code but the code above is longer and more complicated. Why add more complication to the code if is never going to be extended? Now If I was going to do 4+ effects then it makes sences to get rid of ducplication.
-    
-    //    func playAudioWithVariable(#delay: Float ){
-    //        stopAllAudio()
-    //        audioEngine.reset()
-    //        var audioPlayerNode = AVAudioPlayerNode()
-    //        audioEngine.attachNode(audioPlayerNode)
-    //        var changeDelayEffect = AVAudioUnitDelay()
-    //        changeDelayEffect.feedback = delay
-    //        audioEngine.attachNode(changeDelayEffect)
-    //        audioEngine.connect(audioPlayerNode, to: changeDelayEffect, format: nil)
-    //        audioEngine.connect(changeDelayEffect, to: audioEngine.outputNode, format: nil)
-    //        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
-    //        audioEngine.startAndReturnError(nil)
-    //        audioPlayerNode.play()
-    //    }
-    //
-    //    func playAudioWithVariable(#pitch: Float ){
-    //        stopAllAudio()
-    //        audioEngine.reset()
-    //        var audioPlayerNode = AVAudioPlayerNode()
-    //        audioEngine.attachNode(audioPlayerNode)
-    //        var changePitchEffect = AVAudioUnitTimePitch()
-    //        changePitchEffect.pitch = pitch
-    //        audioEngine.attachNode(changePitchEffect)
-    //        audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
-    //        audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
-    //        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
-    //        audioEngine.startAndReturnError(nil)
-    //        audioPlayerNode.play()
-    //    }
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         songAudio = AVAudioPlayer(contentsOfURL:recievedAudio.filePathUrl, error: nil)!
         songAudio.enableRate = true
         audioEngine = AVAudioEngine()
         audioFile = AVAudioFile(forReading: recievedAudio.filePathUrl, error: nil)
-        
-        
         
         NSNotificationCenter.defaultCenter().addObserverForName(
             AVAudioSessionRouteChangeNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
@@ -150,18 +91,13 @@ class PlaySoundsViewControler: UIViewController {
                 println("change route \(note.userInfo)")
                 println("current output :\(AVAudioSession.sharedInstance().currentRoute.outputs[0].UID)")
                 if (AVAudioSession.sharedInstance().currentRoute.outputs[0].UID) == "Built-In Receiver" {
-                    
                     AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker, error: nil)
                 }
         })
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
 }
