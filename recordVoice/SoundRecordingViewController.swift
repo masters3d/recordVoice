@@ -38,7 +38,7 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         stopbuttonLabel.hidden = false
         recButtonLabel.enabled = false
         
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
         
         let currentDateTime = NSDate()
         let formatter = NSDateFormatter()
@@ -85,9 +85,9 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         
         if (segue.identifier == "StopRecordingSegue"){
             
-            let playSoundsVC:PlaySoundsViewControler = segue.destinationViewController as PlaySoundsViewControler
+            let playSoundsVC:PlaySoundsViewControler = segue.destinationViewController as! PlaySoundsViewControler
             
-            let data = sender as RecordedAudio
+            let data = sender as! RecordedAudio
             playSoundsVC.recievedAudio = data
         }
         
