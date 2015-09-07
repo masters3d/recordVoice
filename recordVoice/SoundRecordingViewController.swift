@@ -14,6 +14,8 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
     
     var audioRecorder:AVAudioRecorder!
     var recordedAudio:RecordedAudio!
+    let audioSession = AVAudioSession.sharedInstance()
+
     
     @IBAction func stopButton(sender: UIButton) {
         stopbuttonLabel.hidden = true
@@ -21,8 +23,8 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         recLabel.textColor = UIColor.blackColor()
         recButtonLabel.enabled = true
         audioRecorder.stop()
-        var audioSession = AVAudioSession.sharedInstance()
-        audioSession.setActive(false, error: nil)
+        try? audioSession.setActive(false)
+
     }
     
     @IBOutlet weak var stopbuttonLabel: UIButton!
@@ -38,7 +40,7 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         stopbuttonLabel.hidden = false
         recButtonLabel.enabled = false
         
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] 
         
         let currentDateTime = NSDate()
         let formatter = NSDateFormatter()
@@ -46,16 +48,26 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
         let recordingName = formatter.stringFromDate(currentDateTime)+".wav"
         let pathArray = [dirPath, recordingName]
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
-        var session = AVAudioSession.sharedInstance()
-        session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
-        audioRecorder = AVAudioRecorder(URL: filePath, settings: nil, error: nil)
+        if #available(iOS 9.0, *) {
+            print("\(audioSession.availableCategories)")
+        } else {
+            // Fallback on earlier versions
+        }
+        try? audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+
+        audioRecorder =  try? AVAudioRecorder(URL:filePath! , settings: [:] )
+        
+//        print("\(audioRecorder)")
         audioRecorder.meteringEnabled = true
-        audioRecorder.record()
         audioRecorder.delegate = self
+        audioRecorder.record()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
         
     }
@@ -66,16 +78,15 @@ class SoundRecordingViewController: UIViewController,AVAudioRecorderDelegate{
     }
     
     
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         if(flag){
-            
             
             recordedAudio = RecordedAudio(filePathUrl: recorder.url, title: recorder.url.lastPathComponent!)
             
-            self.performSegueWithIdentifier("StopRecordingSegue", sender: recordedAudio)
+            performSegueWithIdentifier("StopRecordingSegue", sender: recordedAudio)
             
         }else{
-            println("recording was not succesfull")
+            print("recording was not succesfull")
             recButtonLabel.enabled = true
             stopbuttonLabel.hidden = true
         }
