@@ -16,33 +16,33 @@ class PlaySoundsViewControler: UIViewController {
     var audioEngine:AVAudioEngine!
     var audioFile:AVAudioFile!
     
-    @IBAction func StopButton(sender: UIButton) {
+    @IBAction func StopButton(_ sender: UIButton) {
         stopAllAudio()
     }
     
-    @IBAction func FastButtonPlay(sender: UIButton) {
+    @IBAction func FastButtonPlay(_ sender: UIButton) {
         stopAllAudio()
         songAudio.currentTime = 0.0
         songAudio.rate = 1.5
         songAudio.play()
     }
     
-    @IBAction func SlowButtonPlay(sender: UIButton) {
+    @IBAction func SlowButtonPlay(_ sender: UIButton) {
         stopAllAudio()
         songAudio.currentTime = 0.0
         songAudio.rate = 0.5
         songAudio.play()
     }
     
-    @IBAction func chipButtonPlay(sender: UIButton) {
+    @IBAction func chipButtonPlay(_ sender: UIButton) {
         playAudioWithVariable(pitch: 1000)
     }
     
-    @IBAction func darthButtonPlay(sender: UIButton) {
+    @IBAction func darthButtonPlay(_ sender: UIButton) {
         playAudioWithVariable(pitch: -500)
     }
     
-    @IBAction func delayButtonPlay(sender: UIButton) {
+    @IBAction func delayButtonPlay(_ sender: UIButton) {
         playAudioWithVariable(delay: 50)
     }
     
@@ -51,29 +51,29 @@ class PlaySoundsViewControler: UIViewController {
         audioEngine.stop()
     }
     
-    func playAudioEffect(changeEffect:AVAudioNode){
+    func playAudioEffect(_ changeEffect:AVAudioNode){
         stopAllAudio()
         audioEngine.reset()
         
         let audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attachNode(audioPlayerNode)
-        audioEngine.attachNode(changeEffect)
+        audioEngine.attach(audioPlayerNode)
+        audioEngine.attach(changeEffect)
         audioEngine.connect(audioPlayerNode, to: changeEffect, format: nil)
         audioEngine.connect(changeEffect, to: audioEngine.outputNode, format: nil)
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        audioPlayerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
         
-        try? audioEngine.start()
+        _ = try? audioEngine.start()
         
         audioPlayerNode.play()
     }
     
-    func playAudioWithVariable(delay delay: Float ){
+    func playAudioWithVariable(delay: Float ){
             let changeEffect = AVAudioUnitDelay()
             changeEffect.feedback = delay
             playAudioEffect(changeEffect)
     }
     
-    func playAudioWithVariable(pitch pitch: Float ){
+    func playAudioWithVariable(pitch: Float ){
             let changeEffect = AVAudioUnitTimePitch()
             changeEffect.pitch = pitch
             playAudioEffect(changeEffect)
@@ -82,19 +82,19 @@ class PlaySoundsViewControler: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        songAudio = try! AVAudioPlayer(contentsOfURL:recievedAudio.filePathUrl)
+        songAudio = try? AVAudioPlayer(contentsOf:recievedAudio.filePathUrl as URL)
         songAudio.enableRate = true
         audioEngine = AVAudioEngine()
-        audioFile = try? AVAudioFile(forReading: recievedAudio.filePathUrl)
+        audioFile = try? AVAudioFile(forReading: recievedAudio.filePathUrl as URL)
         
-        NSNotificationCenter.defaultCenter().addObserverForName(
-            AVAudioSessionRouteChangeNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
-                (note:NSNotification) in
-                print("change route \(note.userInfo)")
-                print("current output :\(AVAudioSession.sharedInstance().currentRoute.outputs[0].UID)")
-                if (AVAudioSession.sharedInstance().currentRoute.outputs[0].UID) == "Built-In Receiver" {
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name.AVAudioSessionRouteChange, object: nil, queue: OperationQueue.main, using: {
+                (note:Notification) in
+                print("change route \((note as NSNotification).userInfo)")
+                print("current output :\(AVAudioSession.sharedInstance().currentRoute.outputs[0].uid)")
+                if (AVAudioSession.sharedInstance().currentRoute.outputs[0].uid) == "Built-In Receiver" {
                     do {
-                        try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+                        try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
                     } catch _ {
                     }
                 }
