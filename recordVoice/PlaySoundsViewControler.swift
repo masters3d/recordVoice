@@ -88,13 +88,13 @@ class PlaySoundsViewControler: UIViewController {
         audioFile = try? AVAudioFile(forReading: recievedAudio.filePathUrl as URL)
         
         NotificationCenter.default.addObserver(
-            forName: NSNotification.Name.AVAudioSessionRouteChange, object: nil, queue: OperationQueue.main, using: {
+            forName: AVAudioSession.routeChangeNotification, object: nil, queue: OperationQueue.main, using: {
                 (note:Notification) in
-                print("change route \((note as NSNotification).userInfo)")
+                print("change route \(String(describing: (note as NSNotification).userInfo ))")
                 print("current output :\(AVAudioSession.sharedInstance().currentRoute.outputs[0].uid)")
                 if (AVAudioSession.sharedInstance().currentRoute.outputs[0].uid) == "Built-In Receiver" {
                     do {
-                        try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+                        try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
                     } catch _ {
                     }
                 }
